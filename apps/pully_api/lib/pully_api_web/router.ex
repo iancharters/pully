@@ -16,8 +16,8 @@ defmodule PullyAPIWeb.Router do
   scope "/", PullyAPIWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
     forward "/video.mjpg", Streamer
+    get("/move/:direction", MotorController, :move)
   end
 
   # Other scopes may use custom stacks.

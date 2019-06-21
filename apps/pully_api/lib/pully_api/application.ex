@@ -12,9 +12,12 @@ defmodule PullyAPI.Application do
     children = [
       # Start the endpoint when the application starts
       worker(Picam.Camera, []),
-      {PullyAPI.Store, name: :motors},
+      {PullyAPI.Store, PullyAPI.Motor.init()},
       PullyAPIWeb.Endpoint
     ]
+
+    # Turns off the yellow "booting up" LED
+    PullyAPI.Startup.init()
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

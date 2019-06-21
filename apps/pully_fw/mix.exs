@@ -44,6 +44,7 @@ defmodule PullyFw.MixProject do
       {:ring_logger, "~> 0.6"},
       {:toolshed, "~> 0.2"},
       {:pully_api, in_umbrella: true},
+      {:nerves_network, "~> 0.5"},
 
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.6", targets: @all_targets},

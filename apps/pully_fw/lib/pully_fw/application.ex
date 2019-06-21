@@ -11,6 +11,7 @@ defmodule PullyFw.Application do
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: PullyFw.Supervisor]
+
     Supervisor.start_link(children(@target), opts)
   end
 

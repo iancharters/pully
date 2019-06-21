@@ -1,7 +1,0 @@
-<section class="phx-hero">
-  <img src="http://nerves.local/video.mjpg" style="width:100%;height:500px;"/>
-</section>
-
-<section class="row">
-  <button onclick=<% forward %>>FORWARD</button>
-</section>

@@ -15,7 +15,7 @@ config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
 # involved with firmware updates.
 
 config :shoehorn,
-  init: [:nerves_runtime, :nerves_init_gadget],
+  init: [:nerves_runtime, :nerves_init_gadget, :nerves_network],
   app: Mix.Project.config()[:app]
 
 # Use Ringlogger as the logger backend and remove :console.
@@ -52,14 +52,38 @@ config :nerves_firmware_ssh,
 
 # Setting the node_name will enable Erlang Distribution.
 # Only enable this for prod if you understand the risks.
-node_name = if Mix.env() != :prod, do: "pully"
+
+node_name = if Mix.env() == :dev, do: "pully"
+interface = if Mix.env() == :prod, do: "wlan0", else: "eth0"
+method = if Mix.env() == :prod, do: :dhcpd, else: :dhcp
+
+Logger
 
 config :nerves_init_gadget,
-  ifname: "eth0",
-  address_method: :dhcp,
+  ifname: interface,
+  address_method: method,
   mdns_domain: "nerves.local",
   node_name: node_name,
   node_host: :mdns_domain
+
+config :nerves_network,
+  regulatory_domain: "CA"
+
+config :nerves_network, :default,
+  wlan0: [
+    networks: [
+      [
+        ssid: "Pully",
+        psk: "supersecret",
+        key_mgmt: :"WPA-PSK",
+        ipv4_address_method: :dhcpd,
+        mode: 2
+      ]
+    ]
+  ],
+  eth0: [
+    ipv4_address_method: :dhcp
+  ]
 
 config :pully_api, PullyAPIWeb.Endpoint,
   url: [host: "localhost"],
